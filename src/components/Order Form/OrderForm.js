@@ -1,61 +1,67 @@
 import React, { useState } from 'react';
 
-function OrderForm({ onOrderSubmit }) {
+const OrderForm = ({ addOrder, onFormSubmit }) => {
   const [orderId, setOrderId] = useState('');
   const [dish, setDish] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [tableNumber, setTableNumber] = useState(1);
+  const [price, setPrice] = useState('');
+  const [tableNumber, setTableNumber] = useState('1');
 
-  const handleOrderSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const order = {
-      orderId: Number(orderId),
+      orderId,
       dish,
-      quantity: Number(quantity),
+      quantity,
+      price,
       tableNumber,
     };
 
-    onOrderSubmit(order);
+    addOrder(order);
+    // Store data in local storage
+    const orders = JSON.parse(localStorage.getItem(`table${tableNumber}`)) || [];
+    orders.push(order);
+    localStorage.setItem(`table${tableNumber}`, JSON.stringify(orders));
 
-    // Clear the form fields
+    // Clear input fields
     setOrderId('');
     setDish('');
     setQuantity('');
+    setPrice('');
+
+    // Notify the parent component (App.js) that the form has been submitted
+    onFormSubmit();
   };
 
   return (
-    <div>
-      <h2>Order Form</h2>
-      <div>
-        <label>
-          Order ID:
-          <input type="number" value={orderId} onChange={(e) => setOrderId(e.target.value)} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Dish:
-          <input type="text" value={dish} onChange={(e) => setDish(e.target.value)} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Quantity:
-          <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
-        </label>
-      </div>
-      <div>
-        <label>
-          Table Number:
-          <select value={tableNumber} onChange={(e) => setTableNumber(e.target.value)}>
-            <option value="1">Table 1</option>
-            <option value="2">Table 2</option>
-            <option value="3">Table 3</option>
-          </select>
-        </label>
-      </div>
-      <button onClick={handleOrderSubmit}>Submit</button>
-    </div>
+    <form onSubmit={handleSubmit}>
+      <label>
+        Order ID:
+        <input type="number" value={orderId} onChange={(e) => setOrderId(e.target.value)} />
+      </label>
+      <label>
+        Dish:
+        <input type="text" value={dish} onChange={(e) => setDish(e.target.value)} />
+      </label>
+      <label>
+        Quantity:
+        <input type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} />
+      </label>
+      <label>
+        Price:
+        <input type="number" value={price} onChange={(e) => setPrice(e.target.value)} />
+      </label>
+      <label>
+        Table Number:
+        <select value={tableNumber} onChange={(e) => setTableNumber(e.target.value)}>
+          <option value="1">Table 1</option>
+          <option value="2">Table 2</option>
+          <option value="3">Table 3</option>
+        </select>
+      </label>
+      <button type="submit">Submit</button>
+    </form>
   );
-}
+};
 
 export default OrderForm;
