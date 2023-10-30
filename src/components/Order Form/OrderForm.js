@@ -59,7 +59,7 @@ const OrderForm = ({ addOrder, onFormSubmit }) => {
           <option value="3">Table 3</option>
         </select>
       </label>
-      <button type="submit">Submit</button>
+      <button type="submit">Add Order</button>
     </form>
   );
 };

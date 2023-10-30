@@ -13,7 +13,7 @@ const OrderList = ({ tableNumber, onDeleteOrder }) => {
 
   return (
     <div>
-      <h2>Table {tableNumber} Orders:</h2>
+      <h3>Table {tableNumber} Orders:</h3>
       <ul>
         {orders.map((order, index) => (
           <li key={index}>

@@ -29,13 +29,11 @@ function App() {
       <h2>Order Form</h2>
       <OrderForm addOrder={addOrder} onFormSubmit={() => setShowOrderLists(true)} />
 
-      {showOrderLists && (
-        <div>
-          <OrderList tableNumber="1" onDeleteOrder={handleOrderDelete} />
-          <OrderList tableNumber="2" onDeleteOrder={handleOrderDelete} />
-          <OrderList tableNumber="3" onDeleteOrder={handleOrderDelete} />
-        </div>
-      )}
+      <div>
+        <OrderList tableNumber="1" onDeleteOrder={handleOrderDelete} />
+        <OrderList tableNumber="2" onDeleteOrder={handleOrderDelete} />
+        <OrderList tableNumber="3" onDeleteOrder={handleOrderDelete} />
+      </div> {showOrderLists}
     </div>
   );
 }
